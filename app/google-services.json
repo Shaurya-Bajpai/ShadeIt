@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "273217990958",
+    "project_id": "shadeit-4e358",
+    "storage_bucket": "shadeit-4e358.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:273217990958:android:8f339c7354a81e96680abf",
+        "android_client_info": {
+          "package_name": "com.example.shadeit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "273217990958-qi242ep38v7r0k9ae8pac6dlv3864qfa.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.shadeit",
+            "certificate_hash": "972343137beade64434446ce03d52d2b12e159ea"
+          }
+        },
+        {
+          "client_id": "273217990958-hdqan5v44abph5igeofijjck8l9bpas8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDHyvsB0-YWqALL-Q7EVRyXiEJXJBb-uNU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "273217990958-hdqan5v44abph5igeofijjck8l9bpas8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
