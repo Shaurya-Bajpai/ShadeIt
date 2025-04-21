@@ -172,9 +172,8 @@ fun AuthScreen(viewModel: MainViewModel, navController: NavController) {
 
             }
 
-//             Social media icons (placeholders)
+            // Social media icons (placeholders)
             Row(
-                modifier = Modifier.padding(top = 8.dp),
                 horizontalArrangement = Arrangement.spacedBy(16.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
