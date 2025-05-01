@@ -33,14 +33,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
-import com.example.shadeit.Screens.home.bottom.UI.suggestions.BasedColors
+import com.example.shadeit.Screens.home.bottom.UI.suggestions.UiColors
 import com.example.shadeit.Screens.home.bottom.UI.suggestions.OrganisedPalette
+import com.example.shadeit.Screens.home.bottom.UI.suggestions.UiColorAnalysis
 import com.example.shadeit.Screens.home.bottom.UI.suggestions.UiComponent
 import com.example.shadeit.navigation.Screen
 import com.example.shadeit.ui.theme.brush
@@ -144,7 +144,9 @@ fun UISuggestion(navController: NavController, viewModel: ColorViewModel) {
 
             UIsuggestedColors?.let { colors ->
 
-                BasedColors(colors) // Image and Description based colors
+                UiColors(colors) // Image and Description based colors
+
+                UiColorAnalysis(colors) // UI Component colors
 
                 OrganisedPalette(colors) // Organised Palette
 

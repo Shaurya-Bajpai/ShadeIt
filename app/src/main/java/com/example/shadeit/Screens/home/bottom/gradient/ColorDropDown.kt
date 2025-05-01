@@ -72,7 +72,7 @@ fun ColorDropDown(colorStops: List<String>) {
                                     )
                                 )
                             },
-                            fontSize = 14.sp,
+                            fontSize = 16.sp,
                             color = Color.Black
                         )
                     }

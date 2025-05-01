@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -36,7 +35,7 @@ import androidx.compose.ui.unit.sp
 import com.example.shadeit.Screens.home.bottom.UI.dataclass.UISuggestedColor
 
 @Composable
-fun BasedColors(colors: UISuggestedColor) {
+fun UiColors(colors: UISuggestedColor) {
     val clipboardManager = LocalClipboardManager.current
     val pairedColors = colors.image_based.zip(colors.description_based)
     val ColorSize = pairedColors.size

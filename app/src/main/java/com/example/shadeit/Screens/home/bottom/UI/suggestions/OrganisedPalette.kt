@@ -74,9 +74,9 @@ fun OrganisedPalette(colors: UISuggestedColor) {
                     PaletteText("🔵 Primary")
                     PaletteText("⚫ Secondary")
                     PaletteText("✨ Accent")
-                    PaletteText("🧱 Background")
+                    PaletteText("🧾 Background")
                     PaletteText("✍️ Text")
-                    PaletteText("🎯 Additional")
+                    PaletteText("➕ Additional")
                 }
 
                 // Vertical Divider

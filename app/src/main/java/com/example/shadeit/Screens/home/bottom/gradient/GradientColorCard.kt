@@ -64,22 +64,6 @@ fun GradientColorCard(
             horizontalArrangement = Arrangement.End
         ) {
             Column {
-//                TextButton(onClick = {
-//                    if (!isSelected) {
-////                        val combinedColorCode = gradientColor.colorStops.joinToString(", ") { it.toColorInt().toString() }
-////                        clipboardManager.setText(AnnotatedString(combinedColorCode))
-//                        clipboardManager.setText(AnnotatedString(gradientColor.color))
-//                    }
-//                    else { onClick(gradientColor) }
-//                }) {
-//                    Text(
-//                        text = gradientColor.color,
-////                        text = gradientColor.colorStops.joinToString(", ") { it.toColorInt().toString() },
-//                        fontFamily = FontFamily.Monospace,
-//                        fontSize = 14.sp,
-//                        color = White,
-//                    )
-//                }
                 Icon(
                     imageVector = if(isSelected) Icons.Default.CheckCircle else Icons.Default.KeyboardArrowDown,
                     contentDescription = "Expand",
