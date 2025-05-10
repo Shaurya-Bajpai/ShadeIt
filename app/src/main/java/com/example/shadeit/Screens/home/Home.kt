@@ -11,10 +11,18 @@ import android.provider.MediaStore
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.with
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
@@ -59,8 +67,12 @@ import com.example.shadeit.ui.theme.brush
 import com.example.shadeit.viewmodel.ColorViewModel
 import com.example.shadeit.viewmodel.MainViewModel
 import kotlinx.coroutines.launch
+import kotlin.text.compareTo
+import kotlin.unaryMinus
 
-@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class,
+    ExperimentalAnimationApi::class
+)
 @Composable
 fun HomeScreen(navController: NavController, colorViewModel: ColorViewModel, pickerViewModel: PickerViewModel, mainViewModel: MainViewModel, pageState: Int? = null) {
 
@@ -70,13 +82,11 @@ fun HomeScreen(navController: NavController, colorViewModel: ColorViewModel, pic
             colorViewModel.fetchGradientColors(selectedNumColors)
         }
     }
-    val initialPage = pageState ?: 0 // Default to 0 if no pageState is provided
-    val pagerState = rememberPagerState(pageCount = { 4 }, initialPage = initialPage)
-    val coroutineScope = rememberCoroutineScope()
+    var selectedPage by remember { mutableStateOf(0) } // State to track the selected page
 
     // Trigger fetching UI uploads when on pageState 2
-    LaunchedEffect(pagerState.currentPage) {
-        if (pagerState.currentPage == 2) {
+    LaunchedEffect(selectedPage) {
+        if (selectedPage == 2) {
             colorViewModel.fetchUIImage() // Fetch all UI uploads
         }
     }
@@ -133,26 +143,26 @@ fun HomeScreen(navController: NavController, colorViewModel: ColorViewModel, pic
     BackHandler {
         if (isSolidSelectionModeActive) {
             colorViewModel.clearSolidSelections()
-        } else if (pagerState.currentPage == 1) {
+        } else if (selectedPage == 1) {
             if(selectedNumColors != null) {
                 if (isGradientSelectionModeActive) {
                     colorViewModel.clearGradientSelections()
                 } else { selectedNumColors = null }
             } else {
-                coroutineScope.launch { pagerState.animateScrollToPage(0) }
+                selectedPage = 0
             }
-        } else if (pagerState.currentPage == 2) {
+        } else if (selectedPage == 2) {
             if(isUiSelectionModeActive) {
                 colorViewModel.clearUISelections()
             } else {
-                coroutineScope.launch { pagerState.animateScrollToPage(0) }
+                selectedPage = 0
             }
         } else {
             if (backPressedOnce) {
                 showExitDialog = true
             } else {
                 backPressedOnce = true
-                coroutineScope.launch { pagerState.animateScrollToPage(0) }
+                selectedPage = 0
             }
         }
     }
@@ -187,7 +197,7 @@ fun HomeScreen(navController: NavController, colorViewModel: ColorViewModel, pic
             TopAppBar(
                 title = {
                     Text(
-                        text = when (pagerState.currentPage) {
+                        text = when (selectedPage) {
                             0 -> "Solid Colors"
                             1 -> if(selectedNumColors == null) "Gradient Colors" else "$selectedNumColors Gradient Colors"
                             2 -> if(uploadExpanded) "UI Color Upload" else "Upload UI"
@@ -211,14 +221,10 @@ fun HomeScreen(navController: NavController, colorViewModel: ColorViewModel, pic
                 containerColor = Color.Transparent
             ) {
                 NavigationBarItem(
-                    icon = { Icon(Icons.Default.Home, contentDescription = "Home") },
+                    icon = { Icon(Icons.Default.Home, contentDescription = "Home", tint = Color.Gray) },
                     label = { Text("Home") },
-                    selected = pagerState.currentPage == 0,
-                    onClick = {
-                        coroutineScope.launch {
-                            pagerState.animateScrollToPage(0)
-                        }
-                    },
+                    selected = selectedPage == 0,
+                    onClick = { selectedPage = 0 },
                     colors = NavigationBarItemDefaults.colors(
                         selectedIconColor = Color.White,
                         unselectedIconColor = Color.Gray,
@@ -228,19 +234,10 @@ fun HomeScreen(navController: NavController, colorViewModel: ColorViewModel, pic
                     )
                 )
                 NavigationBarItem(
-                    icon = {
-                        Icon(
-                            painter = painterResource(id = R.drawable.baseline_palette_24),
-                            contentDescription = "Palette"
-                        )
-                    },
+                    icon = { Icon(painter = painterResource(id = R.drawable.baseline_palette_24), contentDescription = "Palette", tint = Color.Gray) },
                     label = { Text("Gradient") },
-                    selected = pagerState.currentPage == 1,
-                    onClick = {
-                        coroutineScope.launch {
-                            pagerState.animateScrollToPage(1)
-                        }
-                    },
+                    selected = selectedPage == 1,
+                    onClick = { selectedPage = 1 },
                     colors = NavigationBarItemDefaults.colors(
                         selectedIconColor = Color.White,
                         unselectedIconColor = Color.Gray,
@@ -250,19 +247,10 @@ fun HomeScreen(navController: NavController, colorViewModel: ColorViewModel, pic
                     )
                 )
                 NavigationBarItem(
-                    icon = {
-                        Icon(
-                            painter = painterResource(id = R.drawable.baseline_upload_file_24),
-                            contentDescription = "Upload"
-                        )
-                    },
+                    icon = { Icon(painter = painterResource(id = R.drawable.baseline_upload_file_24), contentDescription = "Upload", tint = Color.Gray) },
                     label = { Text("Upload UI") },
-                    selected = pagerState.currentPage == 2,
-                    onClick = {
-                        coroutineScope.launch {
-                            pagerState.animateScrollToPage(2)
-                        }
-                    },
+                    selected = selectedPage == 2,
+                    onClick = { selectedPage = 2 },
                     colors = NavigationBarItemDefaults.colors(
                         selectedIconColor = Color.White,
                         unselectedIconColor = Color.Gray,
@@ -272,14 +260,10 @@ fun HomeScreen(navController: NavController, colorViewModel: ColorViewModel, pic
                     )
                 )
                 NavigationBarItem(
-                    icon = { Icon(Icons.Default.Home, contentDescription = "Color Palette") },
+                    icon = { Icon(painter = painterResource(R.drawable.baseline_border_color_24), contentDescription = "Color Palette", tint = Color.Gray) },
                     label = { Text("Picker") },
-                    selected = pagerState.currentPage == 3,
-                    onClick = {
-                        coroutineScope.launch {
-                            pagerState.animateScrollToPage(3)
-                        }
-                    },
+                    selected = selectedPage == 3,
+                    onClick = { selectedPage = 3 },
                     colors = NavigationBarItemDefaults.colors(
                         selectedIconColor = Color.White,
                         unselectedIconColor = Color.Gray,
@@ -291,14 +275,14 @@ fun HomeScreen(navController: NavController, colorViewModel: ColorViewModel, pic
             }
         },
         floatingActionButton = {
-            if(pagerState.currentPage == 0){
+            if(selectedPage == 0) {
                 if (isSolidSelectionModeActive) {
                     DeleteColor({ showDeleteDialog = true })
                 } else {
                     AddColor(onClick = { colorViewModel.addSolidColor() })
                 }
             }
-            else if (pagerState.currentPage == 1) {
+            else if (selectedPage == 1) {
                 if(selectedNumColors != null) {
                     if (isGradientSelectionModeActive) {
                         DeleteColor({ showDeleteDialog = true })
@@ -306,7 +290,8 @@ fun HomeScreen(navController: NavController, colorViewModel: ColorViewModel, pic
                         AddColor(onClick = { colorViewModel.addGradientColor(selectedNumColors) })
                     }
                 }
-            } else if (pagerState.currentPage == 2) {
+            }
+            else if (selectedPage == 2) {
                 if (isUiSelectionModeActive) {
                     DeleteColor({ showDeleteDialog = true })
                 } else {
@@ -314,12 +299,23 @@ fun HomeScreen(navController: NavController, colorViewModel: ColorViewModel, pic
                 }
             }
         }
-    ) { paddingValues ->
-        HorizontalPager(
-            state = pagerState,
-            modifier = Modifier.padding(paddingValues)
-        ) { page ->
-            when (page) {
+    ) {
+        AnimatedContent(
+            targetState = selectedPage,
+            transitionSpec = {
+                if (targetState > initialState) {
+                    // Left-to-Right Animation
+                    slideInHorizontally(initialOffsetX = { it }) + fadeIn() with
+                            slideOutHorizontally(targetOffsetX = { -it }) + fadeOut()
+                } else {
+                    // Right-to-Left Animation
+                    slideInHorizontally(initialOffsetX = { -it }) + fadeIn() with
+                            slideOutHorizontally(targetOffsetX = { it }) + fadeOut()
+                }
+            },
+            modifier = Modifier.padding(it)
+        ) { targetPage ->
+            when (targetPage) {
                 0 -> SolidPage(viewModel = colorViewModel)
                 1 -> if(selectedNumColors == null) {
                         GradientPage(selectedNumColors = { selectedNumColors = it })

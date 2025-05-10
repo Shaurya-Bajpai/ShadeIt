@@ -272,7 +272,7 @@ fun ColorPicker(viewModel: PickerViewModel) {
                             if(viewModel.isFirstColorInitialized.value) {
                                 if(viewModel.isSecondColorInitialized.value && !showGradientDropdown) {
                                     Toast.makeText(context, "Open Gradient Box", Toast.LENGTH_SHORT).show()
-                                } else {
+                                } else if(!viewModel.isSecondColorInitialized.value) {
                                     showSolidDropdown = !showSolidDropdown
                                 }
                             } else {
