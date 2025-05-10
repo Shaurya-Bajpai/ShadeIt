@@ -7,6 +7,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.shadeit.Screens.colorpicker.PickerViewModel
 import com.example.shadeit.Screens.home.bottom.UI.UIPage
 import com.example.shadeit.Screens.home.bottom.UI.UISuggestion
 import com.example.shadeit.Screens.home.bottom.UI.upload.Upload
@@ -23,7 +24,7 @@ import com.example.shadeit.viewmodel.MainViewModel
 fun NavigationControl(
     navController: NavHostController = rememberNavController(),
     mainViewModel: MainViewModel = viewModel(),
-    supaViewModel: SupaViewModel = viewModel(),
+    pickerViewModel: PickerViewModel = viewModel(),
     colorViewModel: ColorViewModel,
     isSigned: Boolean
 ) {
@@ -55,6 +56,7 @@ fun NavigationControl(
             HomeScreen(
                 navController = navController,
                 colorViewModel = colorViewModel,
+                pickerViewModel = pickerViewModel,
                 mainViewModel = mainViewModel,
                 pageState = pageState
             )

@@ -2,7 +2,6 @@ package com.example.shadeit.bottom
 
 import android.Manifest
 import android.app.Activity
-import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.ImageDecoder
@@ -21,7 +20,6 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -43,30 +41,28 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
 import com.example.shadeit.R
+import com.example.shadeit.Screens.colorpicker.PickerViewModel
+import com.example.shadeit.Screens.colorpicker.ColorPicker
 import com.example.shadeit.Screens.home.AddColor
 import com.example.shadeit.Screens.home.DeleteColor
 import com.example.shadeit.Screens.home.DeleteConfirmationDialog
 import com.example.shadeit.Screens.home.ExitConfirmationDialog
 import com.example.shadeit.Screens.home.bottom.UI.UIPage
-import com.example.shadeit.Screens.home.bottom.UserProfilePage
 import com.example.shadeit.Screens.home.bottom.gradient.GradientColorsScreen
 import com.example.shadeit.Screens.home.bottom.gradient.GradientPage
 import com.example.shadeit.Screens.home.bottom.solid.SolidPage
 import com.example.shadeit.navigation.Screen
-import com.example.shadeit.supabase.viewmodel.SupaViewModel
 import com.example.shadeit.ui.theme.brush
 import com.example.shadeit.viewmodel.ColorViewModel
 import com.example.shadeit.viewmodel.MainViewModel
 import kotlinx.coroutines.launch
-import java.io.ByteArrayOutputStream
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(navController: NavController, colorViewModel: ColorViewModel, mainViewModel: MainViewModel, pageState: Int? = null) {
+fun HomeScreen(navController: NavController, colorViewModel: ColorViewModel, pickerViewModel: PickerViewModel, mainViewModel: MainViewModel, pageState: Int? = null) {
 
     var selectedNumColors by remember { mutableStateOf<Int?>(null) }
     if(selectedNumColors != null) {
@@ -195,7 +191,7 @@ fun HomeScreen(navController: NavController, colorViewModel: ColorViewModel, mai
                             0 -> "Solid Colors"
                             1 -> if(selectedNumColors == null) "Gradient Colors" else "$selectedNumColors Gradient Colors"
                             2 -> if(uploadExpanded) "UI Color Upload" else "Upload UI"
-                            3 -> "User Profile"
+                            3 -> "Color Picker"
                             else -> "ShadeIt"
                         },
                         style = MaterialTheme.typography.headlineSmall
@@ -276,8 +272,8 @@ fun HomeScreen(navController: NavController, colorViewModel: ColorViewModel, mai
                     )
                 )
                 NavigationBarItem(
-                    icon = { Icon(Icons.Default.Person, contentDescription = "Profile") },
-                    label = { Text("Profile") },
+                    icon = { Icon(Icons.Default.Home, contentDescription = "Color Palette") },
+                    label = { Text("Picker") },
                     selected = pagerState.currentPage == 3,
                     onClick = {
                         coroutineScope.launch {
@@ -332,22 +328,9 @@ fun HomeScreen(navController: NavController, colorViewModel: ColorViewModel, mai
                         GradientColorsScreen(viewModel = colorViewModel)
                     }
                 2 -> UIPage(navController, colorViewModel)
-                3 -> UserProfilePage(navController, mainViewModel)
+//                3 -> UserProfilePage(navController, mainViewModel)
+                3 -> ColorPicker(pickerViewModel)
             }
         }
     }
-}
-
-// Helper function to convert Bitmap to Uri
-fun uriFromBitmap(bitmap: Bitmap, context: Context): Uri {
-    val bytes = ByteArrayOutputStream()
-    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
-    val path = MediaStore.Images.Media.insertImage(context.contentResolver, bitmap, "Title", null)
-    return Uri.parse(path)
-}
-
-@Preview(showBackground = true)
-@Composable
-fun PagePreview() {
-//    ViewPagerScreen(colorViewModel = viewModel())
 }
