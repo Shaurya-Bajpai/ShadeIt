@@ -10,9 +10,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.shadeit.Screens.home.bottom.UI.UIUpload
-import com.example.shadeit.Screens.home.bottom.UI.dataclass.UISuggestedColor
-import com.example.shadeit.Screens.home.bottom.gradient.GradientColor
+import com.example.shadeit.Screens.bottom.UI.UIUpload
+import com.example.shadeit.Screens.bottom.UI.dataclass.UISuggestedColor
+import com.example.shadeit.Screens.bottom.gradient.GradientColor
 import com.example.shadeit.database.ColorRepository
 import com.example.shadeit.database.Colors
 import com.example.shadeit.network.NetworkUtils

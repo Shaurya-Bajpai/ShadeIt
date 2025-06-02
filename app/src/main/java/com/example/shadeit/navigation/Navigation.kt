@@ -1,22 +1,22 @@
 package com.example.shadeit.navigation
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.shadeit.Screens.colorpicker.PickerViewModel
-import com.example.shadeit.Screens.home.bottom.UI.UIPage
-import com.example.shadeit.Screens.home.bottom.UI.UISuggestion
-import com.example.shadeit.Screens.home.bottom.UI.upload.Upload
+import com.example.shadeit.Screens.Controller
+import com.example.shadeit.Screens.bottom.UI.UIPage
+import com.example.shadeit.Screens.bottom.UI.UISuggestion
+import com.example.shadeit.Screens.bottom.UI.upload.Upload
+import com.example.shadeit.Screens.bottom.colorpicker.PickerViewModel
+import com.example.shadeit.Screens.bottom.nav.PrivacyPolicyScreen
 import com.example.shadeit.bottom.HomeScreen
 import com.example.shadeit.frontend.Screen.AuthScreen
 import com.example.shadeit.frontend.Screen.Intro
 import com.example.shadeit.frontend.Screen.LoginScreen
 import com.example.shadeit.frontend.Screen.SignUpScreen
-import com.example.shadeit.supabase.viewmodel.SupaViewModel
 import com.example.shadeit.viewmodel.ColorViewModel
 import com.example.shadeit.viewmodel.MainViewModel
 
@@ -44,22 +44,17 @@ fun NavigationControl(
 
         // Authentication Screens
         composable(Screen.SignUpScreen.route){
-            SignUpScreen(viewModel = mainViewModel, navController = navController)
+            SignUpScreen(viewModel = mainViewModel, navController = navController, onRegisterSuccess = { navController.navigate(Screen.Controller.route) })
         }
         composable(Screen.LoginScreen.route){
-            LoginScreen(viewModel = mainViewModel, navController = navController)
+            LoginScreen(viewModel = mainViewModel, navController = navController, onLoginSuccess = { navController.navigate(Screen.Controller.route) })
         }
 
-        // Home Screen
-        composable(Screen.HomeScreen.route + "?pageState={pageState}") { backStackEntry ->
-            val pageState = backStackEntry.arguments?.getString("pageState")?.toIntOrNull()
-            HomeScreen(
-                navController = navController,
-                colorViewModel = colorViewModel,
-                pickerViewModel = pickerViewModel,
-                mainViewModel = mainViewModel,
-                pageState = pageState
-            )
+        composable(Screen.Controller.route) {
+            Controller(navController = navController, colorViewModel = colorViewModel, mainViewModel = mainViewModel, pickerViewModel = pickerViewModel)
+        }
+        composable(Screen.HomeScreen.route) {
+            HomeScreen(navController = navController)
         }
 
 
@@ -73,33 +68,10 @@ fun NavigationControl(
             UISuggestion(navController = navController, viewModel = colorViewModel)
         }
 
-//        // Upload UI Screen
-//        composable(Screen.Upload.route){
-//            Upload(navController, colorViewModel)
-//        }
 
-        // Bottom Bar Screens
-//        composable(Screen.SolidColor.route){
-//            SolidPage(viewModel = colorViewModel)
-//        }
-//        composable(Screen.GradientColor.route) {
-//            GradPage(viewModel = colorViewModel) { numColors ->
-//                navController.navigate(Screen.GradientColorScreen.createRoute(numColors))
-//            }
-//        }
-//        composable(Screen.GradientColorScreen.route) { backStackEntry ->
-//            val numColors = backStackEntry.arguments?.getString("numColors")?.toInt() ?: 2
-//            GradientColorsScreen(viewModel = colorViewModel, numColors = numColors)
-//        }
-//        composable(Screen.GrokColor.route){
-//            SolidPage(viewModel = colorViewModel)
-//        }
-//        composable(Screen.ProfileScreen.route){
-//            ProfileScreen(navController = navController)
-//        }
+        composable(Screen.PrivacyPolicy.route) {
+            PrivacyPolicyScreen(navController = navController)
+        }
 
-//        composable(Screen.SplashScreen.route){
-//            SplashScreen(navController = navController)
-//        }
     }
 }

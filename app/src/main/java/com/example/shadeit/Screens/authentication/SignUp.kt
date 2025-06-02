@@ -45,7 +45,8 @@ import com.example.shadeit.viewmodel.MainViewModel
 @Composable
 fun SignUpScreen(
     navController: NavController,
-    viewModel: MainViewModel
+    viewModel: MainViewModel,
+    onRegisterSuccess: () -> Unit
 ) {
     val context = LocalContext.current
 
@@ -171,7 +172,7 @@ fun SignUpScreen(
                                 viewModel.signUpUser(context = context) { user, error ->
                                     if (user != null) {
                                         Toast.makeText(context, "Registration Successful", Toast.LENGTH_LONG).show()
-                                        navController.navigate(Screen.HomeScreen.route)
+                                        onRegisterSuccess()
                                     } else {
                                         Toast.makeText(context, error ?: "Something Went Wrong", Toast.LENGTH_LONG).show()
                                     }
@@ -194,5 +195,5 @@ fun SignUpScreen(
 @Preview(showBackground = true)
 @Composable
 fun RegisterScreenPreview() {
-    SignUpScreen(rememberNavController(), MainViewModel())
+    SignUpScreen(rememberNavController(), MainViewModel(), {})
 }

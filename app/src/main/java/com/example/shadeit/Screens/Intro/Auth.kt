@@ -68,7 +68,7 @@ fun AuthScreen(viewModel: MainViewModel, navController: NavController) {
                         viewModel.firstName = user?.displayName ?: ""
                         viewModel.email = user?.email ?: ""
                         Toast.makeText(context, "SignIn successful", Toast.LENGTH_SHORT).show()
-                        navController.navigate(Screen.HomeScreen.route)
+                        navController.navigate(Screen.Controller.route)
                     } else {
                         Toast.makeText(context, "SignIn failed", Toast.LENGTH_SHORT).show()
                     }

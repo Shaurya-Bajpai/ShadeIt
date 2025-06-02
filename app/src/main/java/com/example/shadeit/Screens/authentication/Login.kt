@@ -43,7 +43,8 @@ import com.example.shadeit.viewmodel.MainViewModel
 @Composable
 fun LoginScreen(
     navController: NavController,
-    viewModel: MainViewModel
+    viewModel: MainViewModel,
+    onLoginSuccess: () -> Unit
 ) {
 
     val context = LocalContext.current
@@ -137,7 +138,7 @@ fun LoginScreen(
                             viewModel.signInUser(context = context) { user, error ->
                                 if (user != null) {
                                     Toast.makeText(context, "Login Successful", Toast.LENGTH_LONG).show()
-                                    navController.navigate(Screen.HomeScreen.route)
+                                    onLoginSuccess()
                                 } else {
                                     Toast.makeText(context, error ?: "Something Went Wrong", Toast.LENGTH_LONG).show()
                                 }
@@ -159,5 +160,5 @@ fun LoginScreen(
 @Preview(showBackground = true)
 @Composable
 fun LoginScreenPreview() {
-    LoginScreen(rememberNavController(), MainViewModel())
+    LoginScreen(rememberNavController(), MainViewModel(), {})
 }

@@ -3,9 +3,9 @@ package com.example.shadeit.database
 import android.content.Context
 import android.net.Uri
 import android.util.Log
-import com.example.shadeit.Screens.home.bottom.UI.UIUpload
-import com.example.shadeit.Screens.home.bottom.UI.dataclass.UISuggestedColor
-import com.example.shadeit.Screens.home.bottom.gradient.GradientColor
+import com.example.shadeit.Screens.bottom.UI.UIUpload
+import com.example.shadeit.Screens.bottom.UI.dataclass.UISuggestedColor
+import com.example.shadeit.Screens.bottom.gradient.GradientColor
 import com.example.shadeit.api.ApiService
 import com.example.shadeit.supabase.viewmodel.SupaViewModel
 import com.google.firebase.firestore.DocumentReference

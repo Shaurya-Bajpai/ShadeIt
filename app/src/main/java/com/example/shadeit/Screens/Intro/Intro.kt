@@ -29,9 +29,9 @@ fun Intro(navController: NavController, isSigned: Boolean) {
 
     LaunchedEffect(Unit) {
         coroutineScope.launch {
-            delay(3000)
+//            delay(3000)
             if (isSigned) {
-                navController.navigate(Screen.HomeScreen.route)
+                navController.navigate(Screen.Controller.route)
             } else {
                 navController.navigate(Screen.AuthScreen.route)
             }

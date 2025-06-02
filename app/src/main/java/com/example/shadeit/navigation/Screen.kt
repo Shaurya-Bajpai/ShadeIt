@@ -10,6 +10,8 @@ sealed class Screen(val route: String) {
     object SignUpScreen: Screen("signup")
     object LoginScreen: Screen("login")
 
+    object Controller: Screen("controller")
+
     // Home
     object HomeScreen: Screen("home")
 
@@ -28,6 +30,9 @@ sealed class Screen(val route: String) {
     object Upload: Screen("upload")
     object UIPage: Screen("uiPage")
     object UISuggestion: Screen("uiSuggestion")
+
+
+    object PrivacyPolicy: Screen("privacy")
 
 
 }

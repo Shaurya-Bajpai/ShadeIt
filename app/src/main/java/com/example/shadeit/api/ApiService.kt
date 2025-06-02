@@ -1,6 +1,6 @@
 package com.example.shadeit.api
 
-import com.example.shadeit.Screens.home.bottom.UI.dataclass.UISuggestedColor
+import com.example.shadeit.Screens.bottom.UI.dataclass.UISuggestedColor
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.http.Multipart
